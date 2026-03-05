@@ -48,14 +48,16 @@ video.addEventListener('play', async () => {
 })
 
 function loadLabeledImages() {
-  // GANTI NAMA DI BAWAH INI SESUAI NAMA FOLDER DI labeled_images
-  const labels = ['Octavia Ade Firnanda Putri'] 
-  const labels = ['Reva Rosalina Dewi'] 
+  // GABUNGKAN NAMA JADI SATU BARIS
+  const labels = ['Octavia Ade Firnanda Putri', 'Reva Rosalina Dewi'] 
+  
   return Promise.all(
     labels.map(async label => {
       const descriptions = []
       for (let i = 1; i <= 1; i++) {
-        const img = await faceapi.fetchImage(`/labeled_images/${label}/${i}.jpg`)
+        // GUNAKAN TITIK (./) DAN TANDA BACKTICK ( ` ) 
+        // Tombol backtick ada di sebelah angka 1
+        const img = await faceapi.fetchImage(`./labeled_images/${label}/${i}.jpg`)
         const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
         descriptions.push(detections.descriptor)
       }
