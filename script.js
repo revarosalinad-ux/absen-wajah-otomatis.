@@ -1,6 +1,6 @@
 const video = document.getElementById('video')
 
-// Memuat model AI
+// Memuat model AI - Pastikan folder di GitHub namanya 'models'
 Promise.all([
   faceapi.nets.ssdMobilenetv1.loadFromUri('./models'),
   faceapi.nets.faceLandmark68Net.loadFromUri('./models'),
@@ -11,7 +11,7 @@ function startVideo() {
   navigator.mediaDevices.getUserMedia({ video: {} })
     .then(stream => {
       video.srcObject = stream
-      document.getElementById('status').innerText = "Sistem Siap! Silakan Berdiri Depan Kamera"
+      document.getElementById('status').innerText = "Sistem Siap! Silakan Berdiri Di Depan Kamera"
     })
     .catch(err => console.error(err))
 }
@@ -19,7 +19,7 @@ function startVideo() {
 video.addEventListener('play', async () => {
   const labeledFaceDescriptors = await loadLabeledImages()
   const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6)
-  
+
   const canvas = faceapi.createCanvasFromMedia(video)
   document.getElementById('video-container').append(canvas)
   const displaySize = { width: video.width, height: video.height }
@@ -29,7 +29,7 @@ video.addEventListener('play', async () => {
     const detections = await faceapi.detectAllFaces(video).withFaceLandmarks().withFaceDescriptors()
     const resizedDetections = faceapi.resizeResults(detections, displaySize)
     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
-    
+
     resizedDetections.forEach(detection => {
       const result = faceMatcher.findBestMatch(detection.descriptor)
       
@@ -48,14 +48,12 @@ video.addEventListener('play', async () => {
 })
 
 function loadLabeledImages() {
-  // GABUNGKAN NAMA JADI SATU BARIS
   const labels = ['Octavia Ade Firnanda Putri', 'Reva Rosalina Dewi'] 
   return Promise.all(
     labels.map(async label => {
       const descriptions = []
       for (let i = 1; i <= 1; i++) {
-        // GUNAKAN TITIK (./) DAN TANDA BACKTICK ( ` ) 
-        // Tombol backtick ada di sebelah angka 1
+        // Gunakan backtick ( ` ) dan titik ( ./ )
         const img = await faceapi.fetchImage(`./labeled_images/${label}/${i}.jpg`)
         const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
         descriptions.push(detections.descriptor)
