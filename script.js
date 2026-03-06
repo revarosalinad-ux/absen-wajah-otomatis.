@@ -2,9 +2,9 @@ const video = document.getElementById('video')
 
 // Memuat model AI - Pastikan folder di GitHub namanya 'models'
 Promise.all([
-  faceapi.nets.ssdMobilenetv1.loadFromUri('./models'),
-  faceapi.nets.faceLandmark68Net.loadFromUri('./models'),
-  faceapi.nets.faceRecognitionNet.loadFromUri('./models')
+  faceapi.nets.ssdMobilenetv1.loadFromUri('.models'),
+  faceapi.nets.faceLandmark68Net.loadFromUri('.models'),
+  faceapi.nets.faceRecognitionNet.loadFromUri('.models')
 ]).then(startVideo)
 
 function startVideo() {
@@ -61,4 +61,5 @@ function loadLabeledImages() {
       return new faceapi.LabeledFaceDescriptors(label, descriptions)
     })
   )
+
 }
